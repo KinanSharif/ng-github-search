@@ -17,9 +17,7 @@ export class HeaderComponent implements OnInit {
   }
 
   onSearchUserName(name) {
-    this.userService.getUsers(name).subscribe(
-      (data) => console.log(data)
-    );
+    this.userService.getUsers(name);
   }
 
 }

@@ -4,15 +4,15 @@
   <div class="container">
     <div class="row justify-content-md-center" style="padding: 20px;">
       <!--block-->
-      <div class="col-8">
+      <div class="col-8" *ngFor="let item of resultFound | slice:current:next; let i=index">
         <div class="card" style="padding: 20px;margin: 2px;">
           <div class="card-block">
             <div class="row">
                 <div class="col-md-3">
-                  <img src="https://daks2k3a4ib2z.cloudfront.net/55d62f32fa59c51977889877/561d4d3b8cf0398714ac71b5_MM-092714_Avatar.jpg" alt="image not found" class="img-fluid rounded-circle">
+                  <img src="{{item.avatar_url}}" alt="image not found" class="img-fluid rounded-circle">
                 </div>
                 <div class="col-md-6">
-                  <h4>Name</h4>
+                  <h4>{{item.login}}</h4>
                   <p>git url</p>
                   <br>
                   <p>adfadf</p>
@@ -26,27 +26,7 @@
         </div>
       </div>
       <!--block-end-->
-      <div class="col-8">
-        <div class="card" style="padding: 20px;margin: 2px;">
-          <div class="card-block">
-            <div class="row">
-              <div class="col-md-3">
-                <img src="https://daks2k3a4ib2z.cloudfront.net/55d62f32fa59c51977889877/561d4d3b8cf0398714ac71b5_MM-092714_Avatar.jpg" alt="image not found" class="img-fluid rounded-circle">
-              </div>
-              <div class="col-md-6">
-                <h4>Name</h4>
-                <p>git url</p>
-                <br>
-                <p>adfadf</p>
-                <p>adfadf</p>
-              </div>
-              <div class="col-md-3">
-                <button class="btn btn-outline-primary btn-block" style="margin-top: 140px;">Details</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+
     </div>
   </div>
 </div>

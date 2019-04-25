@@ -1,8 +1,9 @@
 import {Injectable} from '@angular/core';
 
 import {HttpClient, HttpErrorResponse, HttpBackend} from '@angular/common/http';
-import {throwError} from 'rxjs';
+import {Subject, throwError} from 'rxjs';
 import {catchError} from 'rxjs/operators';
+import {User} from './user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,8 @@ export class UserService {
   searchUsersEndPoint = 'https://api.github.com/search/users?q=';
   errorData: {};
 
+  resultSubject = new Subject<User>();
+
   private http: HttpClient;
 
   constructor(handler: HttpBackend) {
@@ -21,11 +24,14 @@ export class UserService {
 
   getUsers(name: string) {
     const url = `${this.searchUsersEndPoint}${name}`;
-
-    return this.http.get<any>(url)
+    this.http.get<User>(url)
       .pipe(
         catchError(this.handleError)
-      );
+      ).subscribe(
+      (data) => {
+        this.resultSubject.next(data);
+      }
+    );
   }
 
   private handleError(error: HttpErrorResponse) {
