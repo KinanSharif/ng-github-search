@@ -4,7 +4,12 @@
   <div class="container">
     <div class="row justify-content-md-center" style="padding: 20px;">
       <!--block-->
-      <div class="col-8" *ngFor="let item of resultFound | slice:current:next; let i=index">
+      <div class="col-8">
+        <p *ngIf="resultFound.length > 0">Total Results: {{totalCount}}</p>
+      </div>
+
+
+      <div class="col-8" *ngFor="let item of resultFound | paginate: { itemsPerPage: 5, currentPage: p }; let i=index">
         <div class="card" style="padding: 20px;margin: 2px;">
           <div class="card-block">
             <div class="row">
@@ -26,6 +31,9 @@
         </div>
       </div>
       <!--block-end-->
+      <div class="col-8" *ngIf="resultFound.length > 0">
+        <pagination-controls (pageChange)="p = $event"></pagination-controls>
+      </div>
 
     </div>
   </div>

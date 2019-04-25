@@ -14,7 +14,7 @@ export class UserService {
   searchUsersEndPoint = 'https://api.github.com/search/users?q=';
   errorData: {};
 
-  resultSubject = new Subject<User>();
+  resultSubject = new Subject<User[]>();
 
   private http: HttpClient;
 
@@ -24,7 +24,7 @@ export class UserService {
 
   getUsers(name: string) {
     const url = `${this.searchUsersEndPoint}${name}`;
-    this.http.get<User>(url)
+    this.http.get<User[]>(url)
       .pipe(
         catchError(this.handleError)
       ).subscribe(

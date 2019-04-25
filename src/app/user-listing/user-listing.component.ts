@@ -4,6 +4,7 @@ import {Subscription} from 'rxjs';
 import {User} from '../user.model';
 
 
+
 @Component({
   selector: 'app-user-listing',
   templateUrl: './user-listing.component.html',
@@ -13,9 +14,10 @@ export class UserListingComponent implements OnInit {
 
 
   resultSubscription: Subscription;
-  resultFound = [];
+  resultFound: User[] = [];
   current = 5;
   next = 10;
+  totalCount : number;
 
   constructor(private userService: UserService) {
   }
@@ -25,7 +27,8 @@ export class UserListingComponent implements OnInit {
       result => {
         if (result) {
           this.resultFound = result.items;
-          console.log(this.resultFound);
+          this.totalCount = result.total_count;
+          console.log(result);
         } else {
           console.log('noting');
         }
