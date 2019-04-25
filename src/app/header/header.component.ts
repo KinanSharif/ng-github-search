@@ -9,6 +9,7 @@ import {UserService} from '../user.service';
 export class HeaderComponent implements OnInit {
 
   public searchUserName: string;
+  public sortValue = 'nameAsc';
 
   constructor(private userService: UserService) {
   }
@@ -16,8 +17,8 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
   }
 
-  onSearchUserName(name) {
-    this.userService.getUsers(name);
+  onSearchUserName(name,sortValue) {
+    this.userService.getUsers(name,sortValue);
   }
 
 }

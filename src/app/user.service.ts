@@ -3,7 +3,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpBackend} from '@angular/common/http';
 import {Subject, throwError} from 'rxjs';
 import {catchError} from 'rxjs/operators';
-import {User} from './user.model';
+
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +14,7 @@ export class UserService {
   searchUsersEndPoint = 'https://api.github.com/search/users?q=';
   errorData: {};
 
-  resultSubject = new Subject<User[]>();
+  resultSubject = new Subject<any>();
 
   private http: HttpClient;
 
@@ -22,16 +22,43 @@ export class UserService {
     this.http = new HttpClient(handler);
   }
 
-  getUsers(name: string) {
+  getUsers(name: string, sortValue: string) {
     const url = `${this.searchUsersEndPoint}${name}`;
-    this.http.get<User[]>(url)
+    this.http.get<any>(url)
       .pipe(
         catchError(this.handleError)
       ).subscribe(
       (data) => {
-        this.resultSubject.next(data);
+        data.items = this.sort(data.items, sortValue);
+        this.resultSubject.next({data: data});
       }
     );
+  }
+
+  sort(data, sortValue) {
+    if (sortValue === 'nameAsc' || sortValue === 'nameDesc') {
+      return this.sortName(data, sortValue);
+    } else if (sortValue === 'rankAsc' || sortValue === 'rankDesc') {
+      return this.sortRank(data, sortValue);
+    }
+  }
+
+  sortName(data, ascOrDesc: string) {
+    if (ascOrDesc === 'nameAsc') {
+      return data.sort((a, b) => a.login > b.login ? 1 : -1);
+    } else {
+      return data.sort((a, b) => a.login < b.login ? 1 : -1);
+    }
+
+  }
+
+  sortRank(data, ascOrDesc: string) {
+    if (ascOrDesc === 'rankAsc') {
+      return data.sort((a, b) => a.score > b.score ? 1 : -1);
+    } else {
+      return data.sort((a, b) => a.score < b.score ? 1 : -1);
+    }
+
   }
 
   private handleError(error: HttpErrorResponse) {

@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {UserService} from '../user.service';
 import {Subscription} from 'rxjs';
-import {User} from '../user.model';
+
 
 
 
@@ -14,7 +14,7 @@ export class UserListingComponent implements OnInit {
 
 
   resultSubscription: Subscription;
-  resultFound: User[] = [];
+  resultFound = [];
   current = 5;
   next = 10;
   totalCount : number;
@@ -26,9 +26,9 @@ export class UserListingComponent implements OnInit {
     this.resultSubscription = this.userService.resultSubject.subscribe(
       result => {
         if (result) {
-          this.resultFound = result.items;
-          this.totalCount = result.total_count;
-          console.log(result);
+          this.resultFound = result.data.items;
+          this.totalCount = result.data.total_count;
+          console.log(this.resultFound);
         } else {
           console.log('noting');
         }
