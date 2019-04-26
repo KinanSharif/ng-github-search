@@ -12,10 +12,12 @@ import {catchError} from 'rxjs/operators';
 export class UserService {
 
 
-  searchUsersEndPoint = 'https://api.github.com/search/users?q=';
+  private searchUsersEndPoint = 'https://api.github.com/search/users?q=';
+  private getUserDetailsEndPoint = 'https://api.github.com/users/';
   errorData: {};
 
   resultSubject = new Subject<any>();
+  resultRepoSubject = new Subject<any>();
   isResultFound = new Subject<boolean>();
   cacheResult;
 
@@ -35,8 +37,8 @@ export class UserService {
    * @param sortValue
    */
 
-  getUsers(name: string, sortValue: string) {
-    const url = `${this.searchUsersEndPoint}${name}`;
+  getUsers(userName: string, sortValue: string) {
+    const url = `${this.searchUsersEndPoint}${userName}`;
     this.http.get<any>(url)
       .pipe(
         catchError(this.handleError)
@@ -52,6 +54,14 @@ export class UserService {
         }
       }
     );
+  }
+
+  getUserRepo(userName: string) {
+    const url = `${this.getUserDetailsEndPoint}${userName}/repos`;
+    return this.http.get<any>(url)
+      .pipe(
+        catchError(this.handleError)
+      );
   }
 
   /**

@@ -12,14 +12,14 @@ export class UserListingComponent implements OnInit {
 
 
   resultSubscription: Subscription;
+  resultRepo = [];
   resultFound = [];
   totalCount: number;
   resultStatus = false;
   isResultFoundSubscription: Subscription;
   showDetail: number;
-  btnValue = 'Details';
 
-  constructor(private userService: UserService,private renderer: Renderer, private elem: ElementRef) {
+  constructor(private userService: UserService, private renderer: Renderer, private elem: ElementRef) {
   }
 
   ngOnInit() {
@@ -45,23 +45,41 @@ export class UserListingComponent implements OnInit {
     );
   }
 
-  showUserDetail(index: number,event){
+  showUserDetail(index: number, userName: string, event) {
 
+    this.changeTextofAllBtns();
+    this.changeTextofSingleBtn(index, event);
 
-    const btnEls = this.elem.nativeElement.querySelectorAll('.btn-outline-primary');
-    btnEls.forEach(function (value) {
-      console.log(value);
-      value.innerHTML = 'Details';
-    })
+    if (this.showDetail !== index) {
+      this.resultRepo = null;
 
-    this.btnValue = 'Details';
-    if(this.showDetail !== index){
+    } else {
+
+      this.userService.getUserRepo(userName).subscribe(
+        (data) => {
+          this.resultRepo = data;
+          console.log(this.resultRepo);
+        },
+        error => console.log(error)
+      );
+    }
+  }
+
+  changeTextofSingleBtn(index, event) {
+    if (this.showDetail !== index) {
       this.showDetail = index;
       event.srcElement.innerHTML = 'Collapse';
-    }else{
+    } else {
       this.showDetail = -1;
       event.srcElement.innerHTML = 'Details';
     }
+  }
+
+  changeTextofAllBtns() {
+    const btnEls = this.elem.nativeElement.querySelectorAll('.btn-outline-primary');
+    btnEls.forEach(function (value) {
+      value.innerHTML = 'Details';
+    });
   }
 
 }
