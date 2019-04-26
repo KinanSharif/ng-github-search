@@ -5,6 +5,7 @@ import {Subject, throwError} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -15,12 +16,24 @@ export class UserService {
   errorData: {};
 
   resultSubject = new Subject<any>();
+  isResultFound = new Subject<boolean>();
+  cacheResult;
 
   private http: HttpClient;
 
   constructor(handler: HttpBackend) {
     this.http = new HttpClient(handler);
   }
+
+  /**
+   * get http
+   * checks the result count
+   * initialize cacheResult
+   * sort cacheResult according to sortValue
+   * isResultFound keeps track of disabling sort select in the header
+   * @param name
+   * @param sortValue
+   */
 
   getUsers(name: string, sortValue: string) {
     const url = `${this.searchUsersEndPoint}${name}`;
@@ -29,21 +42,49 @@ export class UserService {
         catchError(this.handleError)
       ).subscribe(
       (data) => {
-        data.items = this.sort(data.items, sortValue);
-        this.resultSubject.next({data: data});
+        if (data.total_count > 0) {
+          this.cacheResult = data;
+          this.cacheResult.items = this.sort(this.cacheResult.items, sortValue);
+          this.resultSubject.next({data: this.cacheResult});
+          this.isResultFound.next(true);
+        } else {
+          this.isResultFound.next(false);
+        }
       }
     );
   }
 
-  sort(data, sortValue) {
-    if (sortValue === 'nameAsc' || sortValue === 'nameDesc') {
+  /**
+   * call sort() on sort select change the current result.
+   * @param sortValue
+   */
+
+  sortFoundUsers(sortValue: string) {
+    this.cacheResult.items = this.sort(this.cacheResult.items, sortValue);
+    this.resultSubject.next({data: this.cacheResult});
+  }
+
+  /**
+   * sort according to name or rank
+   * @param data
+   * @param sortValue
+   */
+
+  sort(data: any[], sortValue: string) {
+    if (sortValue.substring(0, 4) === 'name') {
       return this.sortName(data, sortValue);
-    } else if (sortValue === 'rankAsc' || sortValue === 'rankDesc') {
+    } else if (sortValue.substring(0, 4) === 'rank') {
       return this.sortRank(data, sortValue);
     }
   }
 
-  sortName(data, ascOrDesc: string) {
+  /**
+   * sort according name asc or desc
+   * @param data
+   * @param ascOrDesc
+   */
+
+  sortName(data: any[], ascOrDesc: string) {
     if (ascOrDesc === 'nameAsc') {
       return data.sort((a, b) => a.login > b.login ? 1 : -1);
     } else {
@@ -52,7 +93,13 @@ export class UserService {
 
   }
 
-  sortRank(data, ascOrDesc: string) {
+  /**
+   * sort according rank "score" asc or desc
+   * @param data
+   * @param ascOrDesc
+   */
+
+  sortRank(data: any[], ascOrDesc: string) {
     if (ascOrDesc === 'rankAsc') {
       return data.sort((a, b) => a.score > b.score ? 1 : -1);
     } else {
