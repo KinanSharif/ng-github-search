@@ -17,8 +17,8 @@ export class UserService {
   errorData: {};
 
   resultSubject = new Subject<any>();
-  resultRepoSubject = new Subject<any>();
   isResultFound = new Subject<boolean>();
+  showLoadingImage = new Subject<boolean>();
   cacheResult;
 
   private http: HttpClient;
@@ -38,6 +38,7 @@ export class UserService {
    */
 
   getUsers(userName: string, sortValue: string) {
+    this.showLoadingImage.next(true);
     const url = `${this.searchUsersEndPoint}${userName}`;
     this.http.get<any>(url)
       .pipe(
@@ -49,8 +50,10 @@ export class UserService {
           this.cacheResult.items = this.sort(this.cacheResult.items, sortValue);
           this.resultSubject.next({data: this.cacheResult});
           this.isResultFound.next(true);
+          this.showLoadingImage.next(false);
         } else {
           this.isResultFound.next(false);
+          this.showLoadingImage.next(false);
         }
       }
     );

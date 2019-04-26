@@ -7,12 +7,14 @@ import { UserListingComponent } from './user-listing/user-listing.component';
 import {FormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {NgxPaginationModule} from 'ngx-pagination';
+import { UserRepoComponent } from './user-listing/user-repo/user-repo.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
-    UserListingComponent
+    UserListingComponent,
+    UserRepoComponent
   ],
   imports: [
     BrowserModule,

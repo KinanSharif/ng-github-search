@@ -1,5 +1,5 @@
 import {Component, ElementRef, OnInit, Renderer} from '@angular/core';
-import {UserService} from '../user.service';
+import {UserService} from '../services/user.service';
 import {Subscription} from 'rxjs';
 
 
@@ -17,12 +17,25 @@ export class UserListingComponent implements OnInit {
   totalCount: number;
   resultStatus = false;
   isResultFoundSubscription: Subscription;
+  showLoadingImageSubscription: Subscription;
   showDetail: number;
+  showLoadingImage = false;
 
   constructor(private userService: UserService, private renderer: Renderer, private elem: ElementRef) {
   }
 
   ngOnInit() {
+
+    this.showLoadingImageSubscription = this.userService.showLoadingImage.subscribe(
+      result => {
+        if (result) {
+          this.showLoadingImage = true;
+        } else {
+          this.showLoadingImage = false;
+        }
+      }
+    );
+
     this.resultSubscription = this.userService.resultSubject.subscribe(
       result => {
 
@@ -46,21 +59,27 @@ export class UserListingComponent implements OnInit {
   }
 
   showUserDetail(index: number, userName: string, event) {
+    this.showLoadingImage = true;
 
     this.changeTextofAllBtns();
     this.changeTextofSingleBtn(index, event);
 
     if (this.showDetail !== index) {
       this.resultRepo = null;
+      this.showLoadingImage = false;
 
     } else {
 
       this.userService.getUserRepo(userName).subscribe(
         (data) => {
           this.resultRepo = data;
+          this.showLoadingImage = false;
           console.log(this.resultRepo);
         },
-        error => console.log(error)
+        error => {
+          console.log(error);
+          this.showLoadingImage = false;
+        }
       );
     }
   }

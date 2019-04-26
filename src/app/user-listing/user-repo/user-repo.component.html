@@ -1,0 +1,11 @@
+
+  <div class="col-12">
+    <hr>
+    <div class="row" *ngFor="let itemRepo of resultRepo;let i=index"
+         [ngClass]="{'repo-detail-white': i%2 == 0, 'repo-detail-grey':i%2 != 0 }">
+      <div class="col-6">{{(itemRepo.name.length>12)? (itemRepo.name | slice:0:12)+'..':(itemRepo.name)}}</div>
+      <div class="col-6">{{itemRepo.language}}</div>
+    </div>
+  </div>
+
+
