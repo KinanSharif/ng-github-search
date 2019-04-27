@@ -22,6 +22,7 @@ export class UserListingComponent implements OnInit {
   showDetail = -1;
   showLoadingImage = false;
   p = 1;
+  buttonText = [];
 
   constructor(private userService: UserService, private renderer: Renderer, private elem: ElementRef) {
   }
@@ -71,8 +72,8 @@ export class UserListingComponent implements OnInit {
   showUserDetail(index: number, userName: string, event) {
     this.showLoadingImage = true;
 
-    this.changeTextofAllBtns();
-    this.changeTextofSingleBtn(index, event);
+    this.changeTextOfAllBtns();
+    this.changeTextOfSingleBtn(index, event);
 
     if (this.showDetail !== index) {
       this.resultRepo = null;
@@ -93,21 +94,20 @@ export class UserListingComponent implements OnInit {
     }
   }
 
-  changeTextofSingleBtn(index, event) {
+  changeTextOfSingleBtn(index, event) {
     if (this.showDetail !== index) {
       this.showDetail = index;
-      event.srcElement.innerHTML = 'Collapse';
+      this.buttonText[index] = 'Collapse';
     } else {
-      this.hideDetailRepoSection();
-      event.srcElement.innerHTML = 'Details';
+      this.showDetail = -1;
+      this.buttonText[index] = 'Details';
     }
   }
 
-  changeTextofAllBtns() {
-    const btnEls = this.elem.nativeElement.querySelectorAll('.btn-outline-primary');
-    btnEls.forEach(function (value) {
-      value.innerHTML = 'Details';
-    });
+  changeTextOfAllBtns() {
+    for (let i = 0; i < this.resultFound.length; i++) {
+      this.buttonText[i] = 'Details';
+    }
   }
 
   onPageChange(event) {
