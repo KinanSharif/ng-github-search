@@ -12,6 +12,7 @@ export class HeaderComponent implements OnInit {
   public searchUserName: string;
   public sortValue = 'nameAsc';
   disableIfNoResult = true;
+  public sortText = 'Sort By ';
 
 
   constructor(private userService: UserService) {

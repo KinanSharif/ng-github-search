@@ -1,6 +1,6 @@
 <div class="container-fluid">
   <div class="container">
-    <div class="row justify-content-md-center" style="padding: 20px;">
+    <div class="row justify-content-md-center row-padding">
 
       <div class="alert alert-warning" *ngIf="resultStatus">
         <strong>No Result Found!</strong> your recent search received no hits.
@@ -8,12 +8,11 @@
 
       <!--block-->
       <div class="col-8">
-        <p *ngIf="resultFound.length > 0">Total Results: {{totalCount}}</p>
+        <p *ngIf="resultFound.length > 0"><b>Total Results: {{totalCount}}</b></p>
       </div>
 
-
       <div class="col-8" *ngFor="let item of resultFound | paginate: { itemsPerPage: 10, currentPage: p, totalItems: totalCount }; let i=index">
-        <div class="card" style="padding: 20px;margin: 2px;">
+        <div class="card padding-and-margin">
           <div class="card-block">
             <div class="row">
               <div class="col-md-2">
@@ -31,7 +30,7 @@
                 <p><span class="thick">Score </span>{{item.score}}</p>
               </div>
               <div class="col-md-3">
-                <button class="btn btn-outline-primary btn-block" style="margin-top: 140px;"
+                <button class="btn btn-outline-primary btn-block margin-top-140"
                         (click)="showUserDetail(i,item.login,$event)">{{ buttonText[i]?buttonText[i]:'Details' }}
                 </button>
               </div>
@@ -44,7 +43,7 @@
       </div>
 
       <!--block-end-->
-      <div class="col-8 text-right" *ngIf="resultFound.length > 0">
+      <div class="col-8 text-right margin-top-14" *ngIf="resultFound.length > 0">
         <pagination-controls (pageChange)=onPageChange($event)></pagination-controls>
       </div>
 

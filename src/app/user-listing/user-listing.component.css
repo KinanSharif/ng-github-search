@@ -10,3 +10,24 @@
 span.thick {
   font-weight: bold;
 }
+
+.row-margin-bottom {
+  margin-bottom: 20px;
+}
+
+.row-padding {
+  padding: 20px;
+}
+
+.padding-and-margin {
+  padding: 20px;
+  margin: 10px;
+}
+
+.margin-top-140{
+  margin-top: 140px;
+}
+
+.margin-top-14{
+  margin-top: 15px;
+}

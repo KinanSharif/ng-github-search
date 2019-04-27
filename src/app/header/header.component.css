@@ -14,6 +14,27 @@
   -moz-appearance: none;
 }*/
 
+.header-color {
+  background-color: #147abc;
+}
+
+.row-margin-bottom {
+  margin-bottom: 20px;
+}
+
+.row-padding {
+  padding: 20px;
+}
+
+.padding-and-margin {
+  padding: 20px;
+  margin: 2px;
+}
+
+.margin-top-140{
+  margin-top: 140px;
+}
+
 select {
   width: 200px;
   padding: 5px;

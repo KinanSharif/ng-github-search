@@ -1,21 +1,25 @@
-<div style="background-color: #3761ba;">
+<div class="header-color">
   <div class="container">
     <div class="row justify-content-md-center">
 
-      <div class="col-md-12" style="margin-bottom: 20px;"></div>
+      <div class="col-md-12 row-margin-bottom"></div>
 
       <div class="col-md-1"></div>
 
       <div class="col-md-3">
         <div class="form-group">
-          <select class="form-control" [(ngModel)]="sortValue" [disabled]="disableIfNoResult" (ngModelChange)="onChangeSelect(sortValue)" >
-            <option value="nameAsc">Name (A - Z)
+          <select class="form-control"
+                  [(ngModel)]="sortValue"
+                  [disabled]="disableIfNoResult"
+                  (ngModelChange)="onChangeSelect(sortValue)"
+          >
+            <option value="nameAsc">{{sortText}}Name (A - Z)
             </option>
-            <option value="nameDesc">Name (Z - A)
+            <option value="nameDesc">{{sortText}}Name (Z - A)
             </option>
-            <option value="rankAsc">Rank ↑
+            <option value="rankAsc">{{sortText}}Rank ↑
             </option>
-            <option value="rankDesc">Rank ↓
+            <option value="rankDesc">{{sortText}}Rank ↓
             </option>
           </select>
         </div>
@@ -25,9 +29,13 @@
       <div class="col-md-6">
         <div class="input-group col-md-10">
           <input class="form-control py-2" type="search" value="search" id="example-search-input"
-                 [(ngModel)]="searchUserName" (keyup.enter)="onSearchUserName(searchUserName,sortValue)">
+                 [(ngModel)]="searchUserName"
+                 (keyup.enter)="onSearchUserName(searchUserName,sortValue)"
+          >
           <span class="input-group-append">
-        <button class="btn btn-light" type="button" (click)="onSearchUserName(searchUserName,sortValue)">
+        <button class="btn btn-light" type="button"
+                (click)="onSearchUserName(searchUserName,sortValue)"
+        >
             <i class="fa fa-search" aria-hidden="true"></i>
         </button>
       </span>
