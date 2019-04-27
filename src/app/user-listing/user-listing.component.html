@@ -16,15 +16,18 @@
         <div class="card" style="padding: 20px;margin: 2px;">
           <div class="card-block">
             <div class="row">
-              <div class="col-md-3">
+              <div class="col-md-2">
                 <img src="{{item.avatar_url}}" alt="image not found" class="img-fluid rounded-circle">
               </div>
-              <div class="col-md-6">
+              <div class="col-md-7">
                 <h4>{{item.login}}</h4>
-                <p>git url</p>
+                <p>
+                  <span class="thick">Profile </span>
+                  <a href="{{item.url}}" target="_blank">{{item.url}}</a>
+                </p>
+                <p><span class="thick">Type </span>{{item.type}}</p>
                 <br>
-                <p>{{item.score}}</p>
-                <p>adfadf</p>
+                <p><span class="thick">Score </span>{{item.score}}</p>
               </div>
               <div class="col-md-3">
                 <button class="btn btn-outline-primary btn-block" style="margin-top: 140px;"
