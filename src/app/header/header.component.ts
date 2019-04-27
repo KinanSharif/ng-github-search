@@ -28,7 +28,8 @@ export class HeaderComponent implements OnInit {
 
   onSearchUserName(name: string, sortValue: string) {
 
-    if (name != null) {
+    console.log(name);
+    if (name != null && name !== "") {
       this.userService.getUsers(name, sortValue);
       this.disableIfNoResult = false;
     }

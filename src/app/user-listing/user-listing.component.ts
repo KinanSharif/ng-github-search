@@ -121,6 +121,7 @@ export class UserListingComponent implements OnInit {
    */
   hideDetailRepoSection() {
     this.showDetail = -1;
+    this.changeTextOfAllBtns();
   }
 
 }
