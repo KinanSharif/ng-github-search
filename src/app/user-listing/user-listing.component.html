@@ -12,7 +12,7 @@
       </div>
 
 
-      <div class="col-8" *ngFor="let item of resultFound | paginate: { itemsPerPage: 5, currentPage: p }; let i=index">
+      <div class="col-8" *ngFor="let item of resultFound | paginate: { itemsPerPage: 10, currentPage: p, totalItems: totalCount }; let i=index">
         <div class="card" style="padding: 20px;margin: 2px;">
           <div class="card-block">
             <div class="row">
@@ -25,8 +25,9 @@
                   <span class="thick">Profile </span>
                   <a href="{{item.url}}" target="_blank">{{item.url}}</a>
                 </p>
-                <p><span class="thick">Type </span>{{item.type}}</p>
+
                 <br>
+                <p><span class="thick">Type </span>{{item.type}}</p>
                 <p><span class="thick">Score </span>{{item.score}}</p>
               </div>
               <div class="col-md-3">

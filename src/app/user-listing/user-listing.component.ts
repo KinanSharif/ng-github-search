@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, Renderer} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {UserService} from '../services/user.service';
 import {Subscription} from 'rxjs';
 
@@ -19,15 +19,28 @@ export class UserListingComponent implements OnInit {
   isResultFoundSubscription: Subscription;
   showLoadingImageSubscription: Subscription;
   showDetailSubscription: Subscription;
+  valuesOnSearchSubscription: Subscription;
   showDetail = -1;
   showLoadingImage = false;
   p = 1;
   buttonText = [];
+  searchedUserName: string;
+  selectedSortValue: string;
 
-  constructor(private userService: UserService, private renderer: Renderer, private elem: ElementRef) {
+
+  constructor(private userService: UserService) {
   }
 
   ngOnInit() {
+
+    this.valuesOnSearchSubscription = this.userService.valuesOnSearch.subscribe(
+      result => {
+        if (result) {
+          this.searchedUserName = result.userName;
+          this.selectedSortValue = result.sortValue;
+        }
+      }
+    );
 
     this.showLoadingImageSubscription = this.userService.showLoadingImage.subscribe(
       result => {
@@ -53,6 +66,7 @@ export class UserListingComponent implements OnInit {
         if (result.data.total_count > 0) {
           this.resultFound = result.data.items;
           this.totalCount = result.data.total_count;
+          console.log(this.totalCount);
         }
 
       }
@@ -113,6 +127,7 @@ export class UserListingComponent implements OnInit {
   onPageChange(event) {
     this.p = event;
     this.hideDetailRepoSection();
+    this.userService.getUsers(this.searchedUserName, this.selectedSortValue, this.p);
   }
 
   /**

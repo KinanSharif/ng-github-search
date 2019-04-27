@@ -29,8 +29,8 @@ export class HeaderComponent implements OnInit {
   onSearchUserName(name: string, sortValue: string) {
 
     console.log(name);
-    if (name != null && name !== "") {
-      this.userService.getUsers(name, sortValue);
+    if (name != null && name !== '') {
+      this.userService.getUsers(name, sortValue, 1);
       this.disableIfNoResult = false;
     }
 
@@ -42,6 +42,7 @@ export class HeaderComponent implements OnInit {
    */
 
   onChangeSelect(sortValue) {
+    this.userService.valuesOnSearch.next({sortValue: sortValue});
     this.userService.sortFoundUsers(sortValue);
   }
 

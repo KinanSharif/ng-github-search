@@ -5,7 +5,6 @@ import {Subject, throwError} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -21,6 +20,7 @@ export class UserService {
   showLoadingImage = new Subject<boolean>();
   showDetail = new Subject<number>();
   cacheResult;
+  valuesOnSearch = new Subject<any>();
 
   private http: HttpClient;
 
@@ -38,9 +38,10 @@ export class UserService {
    * @param sortValue
    */
 
-  getUsers(userName: string, sortValue: string) {
+  getUsers(userName: string, sortValue: string, page: number) {
     this.showLoadingImage.next(true);
-    const url = `${this.searchUsersEndPoint}${userName}`;
+    this.valuesOnSearch.next({userName: userName, sortValue: sortValue});
+    const url = `${this.searchUsersEndPoint}${userName}&page=${page}&per_page=10`;
     this.http.get<any>(url)
       .pipe(
         catchError(this.handleError)
