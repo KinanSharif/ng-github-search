@@ -41,7 +41,7 @@
 
       <!--block-end-->
       <div class="col-8 text-right" *ngIf="resultFound.length > 0">
-        <pagination-controls (pageChange)="p = $event"></pagination-controls>
+        <pagination-controls (pageChange)=onPageChange($event)></pagination-controls>
       </div>
 
     </div>

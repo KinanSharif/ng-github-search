@@ -20,6 +20,7 @@ export class UserListingComponent implements OnInit {
   showLoadingImageSubscription: Subscription;
   showDetail: number;
   showLoadingImage = false;
+  p = 1;
 
   constructor(private userService: UserService, private renderer: Renderer, private elem: ElementRef) {
   }
@@ -99,6 +100,11 @@ export class UserListingComponent implements OnInit {
     btnEls.forEach(function (value) {
       value.innerHTML = 'Details';
     });
+  }
+
+  onPageChange(event){
+    this.p = event;
+    this.showDetail = -1;
   }
 
 }

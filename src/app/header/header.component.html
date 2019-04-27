@@ -21,10 +21,11 @@
         </div>
       </div>
 
+
       <div class="col-md-6">
         <div class="input-group col-md-10">
           <input class="form-control py-2" type="search" value="search" id="example-search-input"
-                 [(ngModel)]="searchUserName">
+                 [(ngModel)]="searchUserName" (keyup.enter)="onSearchUserName(searchUserName,sortValue)">
           <span class="input-group-append">
         <button class="btn btn-light" type="button" (click)="onSearchUserName(searchUserName,sortValue)">
             <i class="fa fa-search" aria-hidden="true"></i>
