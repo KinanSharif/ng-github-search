@@ -18,7 +18,8 @@ export class UserListingComponent implements OnInit {
   resultStatus = false;
   isResultFoundSubscription: Subscription;
   showLoadingImageSubscription: Subscription;
-  showDetail: number;
+  showDetailSubscription: Subscription;
+  showDetail = -1;
   showLoadingImage = false;
   p = 1;
 
@@ -33,6 +34,14 @@ export class UserListingComponent implements OnInit {
           this.showLoadingImage = true;
         } else {
           this.showLoadingImage = false;
+        }
+      }
+    );
+
+    this.showDetailSubscription = this.userService.showDetail.subscribe(
+      result => {
+        if (result) {
+          this.showDetail = result;
         }
       }
     );
@@ -75,7 +84,6 @@ export class UserListingComponent implements OnInit {
         (data) => {
           this.resultRepo = data;
           this.showLoadingImage = false;
-          console.log(this.resultRepo);
         },
         error => {
           console.log(error);
@@ -90,7 +98,7 @@ export class UserListingComponent implements OnInit {
       this.showDetail = index;
       event.srcElement.innerHTML = 'Collapse';
     } else {
-      this.showDetail = -1;
+      this.hideDetailRepoSection();
       event.srcElement.innerHTML = 'Details';
     }
   }
@@ -102,8 +110,16 @@ export class UserListingComponent implements OnInit {
     });
   }
 
-  onPageChange(event){
+  onPageChange(event) {
     this.p = event;
+    this.hideDetailRepoSection();
+  }
+
+  /**
+   * assigning showDetail to -1
+   * hides the visibility of the detail repo section
+   */
+  hideDetailRepoSection() {
     this.showDetail = -1;
   }
 

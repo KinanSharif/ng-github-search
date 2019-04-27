@@ -19,6 +19,7 @@ export class UserService {
   resultSubject = new Subject<any>();
   isResultFound = new Subject<boolean>();
   showLoadingImage = new Subject<boolean>();
+  showDetail = new Subject<number>();
   cacheResult;
 
   private http: HttpClient;
@@ -51,9 +52,11 @@ export class UserService {
           this.resultSubject.next({data: this.cacheResult});
           this.isResultFound.next(true);
           this.showLoadingImage.next(false);
+          this.showDetail.next(-1);
         } else {
           this.isResultFound.next(false);
           this.showLoadingImage.next(false);
+          this.showDetail.next(-1);
         }
       }
     );
