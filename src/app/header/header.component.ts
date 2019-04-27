@@ -26,9 +26,13 @@ export class HeaderComponent implements OnInit {
    * @param sortValue
    */
 
-  onSearchUserName(name, sortValue) {
-    this.userService.getUsers(name, sortValue);
-    this.disableIfNoResult = false;
+  onSearchUserName(name: string, sortValue: string) {
+
+    if (name != null) {
+      this.userService.getUsers(name, sortValue);
+      this.disableIfNoResult = false;
+    }
+
   }
 
   /**
